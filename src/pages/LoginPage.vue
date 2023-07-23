@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="padding-top: 100px;">
     <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
@@ -57,16 +57,13 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
 <script>
 import { required } from "vuelidate/lib/validators";
 export default {
-  name: "Login",
+  name: "LoginPage",
   data() {
     return {
       form: {
@@ -95,34 +92,36 @@ export default {
       try {
         
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Login",
+          // "https://http://localhost:3000/user/Login",
+          // "http://127.0.0.1:3000/Login",
+
           this.$root.store.server_domain +"/Login",
           // "http://132.72.65.211:80/Login",
           // "http://132.73.84.100:80/Login",
-
           {
             username: this.form.username,
-            password: this.form.password
-          }
+            password: this.form.password,
+          },  
+          {withCredentials: true}
         );
-        // console.log(response);
+        console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
         this.$router.push("/");
       } catch (err) {
         console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        // this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
-      // console.log("login method called");
+      console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
+      console.log("login method go");
 
       this.Login();
     }
