@@ -2,17 +2,25 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
+import state from "./store";
 import routes from "./routes";
 import VueRouter from "vue-router";
+import VueCookies from "vue-cookies";
+Vue.use(VueCookies);
+
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
 });
 
+// axios.defaults.withCredentials = true;
+
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -25,6 +33,7 @@ import {
   ToastPlugin,
   LayoutPlugin,
 } from "bootstrap-vue";
+// import { Session } from "inspector";
 [
   FormGroupPlugin,
   FormPlugin,
@@ -67,11 +76,12 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 const shared_data = {
+  server_domain: state.server_domain,
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
-    console.log("login", this.username);
+    console.log("login", this.username);    
   },
   logout() {
     console.log("logout");
